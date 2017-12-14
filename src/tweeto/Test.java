@@ -30,6 +30,7 @@ public class Test {
         arr[place] = letter;
         System.out.println(arr[place]+ " "+ place);
         String m = "3";
+        // dasdasda sd
 
 
 
