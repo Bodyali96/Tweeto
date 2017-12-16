@@ -20,6 +20,9 @@ public class Tweeto {
        setID();
        setTweet();
     }
+    public Tweeto(String ID,String tweet){
+        setLine(ID.concat(" ").concat(tweet));
+    }
 
     // A function to convert the whole line to a new line without the numbers in the beginning
     private void setLine(String line) {
@@ -44,7 +47,9 @@ public class Tweeto {
     private void setTweet() {
         if(getLine().contains("RT @"))
             this.Tweet = line.substring(line.indexOf(":")+2,line.indexOf("Wed Dec"));
-        else if(true);
+        else if(getLine().lastIndexOf("@") != 0){
+            line = line.substring(line.lastIndexOf("@"))
+        }
         this.Tweet = line.substring(0,line.indexOf("Wed Dec"));
     }
 
