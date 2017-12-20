@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Test {
-    
+
     public static void main(String [] args){
         try{
-
+            TweetoHT TwHt = new TweetoHT();
             FileReader file = new FileReader("1000.txt");
             Scanner scan = new Scanner(file);
             while(scan.hasNext()){
@@ -17,10 +17,10 @@ public class Test {
                 if (!line.contains("Wed Dec"))
                     while (!line.contains("Wed Dec"))
                         line = line.concat(scan.nextLine());
+                TwHt.insert(new Tweeto(line));
             }
             scan.close();
-
-
+            System.out.println(TwHt.search("ATVIAssist","Thank "));
         }
         catch (Exception e){
             System.out.println(e.getMessage());

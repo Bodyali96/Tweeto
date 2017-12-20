@@ -7,12 +7,21 @@ import java.util.Scanner;
 public class TweetoHT {
     // a class to hold all the tweets inside a hash table implemented as an array.
 
-    Tweeto HT[];
-    int size;
+    private Tweeto HT[];
+    private int result;
     //initialize the variables
     public TweetoHT() {
+        // an array to store 10 digits (0-9) and 27 character (a-z, _ )
         HT = new Tweeto[37];
-        this.size = 0;
+        this.result = 0;
+    }
+
+    public Tweeto[] getHT() {
+        return HT;
+    }
+
+    public int getResult() {
+        return result;
     }
 
     public int hash(String id){
@@ -25,81 +34,40 @@ public class TweetoHT {
 
     public void insert(Tweeto T){
         int position = hash(T.getID());
-
+        //if the position if empty, the node will be the root of the chain
         if(HT[position] == null)
         {
-            HT[position] = new Tweeto(T.getID(), T.getTweet());
+            HT[position] = T;
+            T.setNext(null);
             return;
+            }
+
+        // inserting in the beginning
+        Tweeto temp = HT[position];
+        HT[position] = T;
+        T.setNext(temp);
         }
 
+    public int search(String user, String keyword) throws Exception{
+        int position;
+        if(user.startsWith("@"))
+            position = hash(user);
+        else if(!user.startsWith("@") && (Character.isDigit(user.charAt(0)) || Character.isLetter(user.charAt(0)) || user.startsWith("_"))) {
+            user = "@".concat(user);
+            position = hash(user);
+        }
+        else
+            throw new Exception("Invalid ID");
         Tweeto temp = HT[position];
+        while(temp != null){
 
-        while(temp.getNext() != null)
-        {
+            if(temp.getID().equalsIgnoreCase(user) && temp.getTweet().toLowerCase().contains(keyword.toLowerCase())){
+                result++;
+            }
             temp = temp.getNext();
         }
 
-        temp.setNext(new Tweeto(T.getID(),T.getTweet()));
-        }
-
-    public int search(String user, String keyword){
-        int position = hash(user);
-
-        for(Tweeto t = HT[position] ; t != null ; t = t.getNext())
-        {
-            if(user.equalsIgnoreCase(t.getID()) && t.getTweet().toLowerCase().contains(keyword.toLowerCase())){
-                size++;
-            }
-        }//end for loop
-
-        return size;
-    }
-
-    public void readme(String fileName){
-        try {
-            Scanner input = new Scanner(new File(fileName));
-
-            while(input.hasNextLine())
-            {
-
-                String file = input.nextLine();// read the line
-                String [] text =file.split(" "); // split based on spaces
-                String id = text[1].substring(1);// store the id without @
-                String content = "";
-
-
-                for(int i = 2 ; i<file.length()-1 ; i++) // sotre the content
-                {
-                    if(!text[i].equalsIgnoreCase("Wed")){
-                        if(!text[i].equalsIgnoreCase("RT")){
-                            if(!text[i].contains("@")){
-                                content +=""+text[i];
-                            }
-                        }
-                    }
-                    else
-                        break;
-                }// end for loop
-
-                insert(new Tweeto(id,content));
-
-                /**
-                 * after finishing adding the tweet id & content to the H.T.
-                 * we need to make the array empty again
-                 */
-                for(int i = 0 ; i <text.length-1 ; i++)
-                {
-                    text[i] = "";
-                }
-
-            }// end while loop
-
-        } catch (FileNotFoundException ex) {
-
-            System.out.println("Error Read");
-        }
-
-
+        return result;
     }
 
 

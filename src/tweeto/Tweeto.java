@@ -20,9 +20,6 @@ public class Tweeto {
        setID();
        setTweet();
     }
-    public Tweeto(String ID,String tweet){
-        setLine(ID.concat(" ").concat(tweet));
-    }
 
     // A function to convert the whole line to a new line without the numbers in the beginning
     private void setLine(String line) {
@@ -35,7 +32,7 @@ public class Tweeto {
         return ID;
     }
 
-    // using String methods to trim the ID that starts with @ until the white space
+    // using String methods to trim the ID that starts with @ until the first space
     private void setID() {
         this.ID = getLine().substring(0,getLine().indexOf(" "));
     }
@@ -45,12 +42,18 @@ public class Tweeto {
     }
     // storing the tweet's content without the date in the end
     private void setTweet() {
-        if(getLine().contains("RT @"))
-            this.Tweet = line.substring(line.indexOf(":")+2,line.indexOf("Wed Dec"));
-        else if(getLine().lastIndexOf("@") != 0){
-            line = line.substring(line.lastIndexOf("@"))
-        }
-        this.Tweet = line.substring(0,line.indexOf("Wed Dec"));
+        String l = getLine().substring(line.indexOf(" ")+1);
+        //if the user retweeted the tweet
+        if(l.startsWith("RT @"))
+            this.Tweet = line.substring(line.indexOf(":")+2,line.lastIndexOf("Wed Dec"));
+        // if the tweet has mentions
+        else if(l.startsWith("@")){
+            while(l.startsWith("@"))
+                l = l.substring(l.indexOf(" ")+1);
+            this.Tweet = l.substring(0,l.lastIndexOf("Wed Dec"));
+        }// the normal case, when there is no re tweet or mention
+        else
+        this.Tweet = l.substring(0,l.lastIndexOf("Wed Dec"));
     }
 
     public Tweeto getNext() {
