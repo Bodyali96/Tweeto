@@ -61,13 +61,17 @@ public class TweetoHT {
         Tweeto temp = HT[position];
         while(temp != null){
 
-            if(temp.getID().equalsIgnoreCase(user) && temp.getTweet().toLowerCase().contains(keyword.toLowerCase())){
+            if(temp.getID().toLowerCase().startsWith(user.toLowerCase()) && temp.getTweet().toLowerCase().contains(keyword.toLowerCase())){
                 result++;
             }
             temp = temp.getNext();
         }
 
         return result;
+    }
+
+    public String toString(){
+         return String.format("The hash table has : %d indices, and contains Tweeto objects",HT.length);
     }
 
 
