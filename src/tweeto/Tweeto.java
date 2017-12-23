@@ -1,7 +1,7 @@
 
 package tweeto;
 
-public class Tweeto {
+public class Tweeto implements Comparable<Tweeto>{
     // this variable to store the ID #Note : started with @
     private String ID;
     // this variable to store the content of the tweet itself, including the mentions/RT
@@ -69,5 +69,15 @@ public class Tweeto {
     @Override
     public String toString() {
         return String.format("%s %s",ID,Tweet);
+    }
+
+
+    /** Sorting based on the alphabetic order, where : a < b < c < d and so on.
+     * return num > 0 if this.ID > o.ID
+     * return num < 0 if this.ID < o.ID
+     * return  0 if this.ID == o.ID */
+    @Override
+    public int compareTo(Tweeto o) {
+        return this.getID().compareTo(o.getID());
     }
 }

@@ -9,18 +9,20 @@ public class Test {
 
     public static void main(String [] args){
 
-        double m = System.currentTimeMillis();
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Please enter your choice");
-        String fName = "100000.txt";
-        String choice = scan.next();
-        String user = scan.next();
-        String keyword = scan.next();
-        try{
-            readFile(fName,user,keyword,choice);
-        } catch (Exception e) {System.out.println(e.getMessage());}
-        double m2 = System.currentTimeMillis();
-        System.out.println(m2-m);
+
+//
+//        double m = System.currentTimeMillis();
+//        Scanner scan = new Scanner(System.in);
+//        System.out.println("Please enter your choice");
+//        String fName = "1000.txt";
+//        String choice = scan.next();
+//        String user = scan.next();
+//        String keyword = scan.next();
+//        try{
+//            readFile(fName,user,keyword,choice);
+//        } catch (Exception e) {System.out.println(e.getMessage());}
+//        double m2 = System.currentTimeMillis();
+//        System.out.println(m2-m);
     }//end main
 
     public static void readFile(String fileName, String user, String keyword,String choice)throws Exception{
