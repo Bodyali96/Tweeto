@@ -1,6 +1,7 @@
 package tweeto;
 // The documentation:
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -27,28 +28,20 @@ public class TweetoBH {
     // capacity shows the maximum Tweeto objects you can store in this array.
     // while size shows the current number of Tweeto objects have been stored.
 
-    public int getCapacity() {
-        return capacity;
+    public int getSize() {
+        return size;
     }
 
-    private int capacity;
-    private int size;
+    static int capacity ;
+    private int size = 0;
 
     //The array that will store all Tweeto objects start with the same letter.
 
-    private Tweeto[] items = new Tweeto[getCapacity()];
+    private Tweeto[] items;
 
     // a default constructor
-    public TweetoBH(String fileName) {
-        // to initialize the capacity, we recive the name of the txt file,
-        // and parse the part from beginning until the dot, for exapmle:
-        // 1000.txt will make the capacity 1000
-        try {
-            this.capacity = Integer.parseInt(fileName.substring(0, fileName.indexOf(".")));
-            size = 0;
-        } catch (Exception e) {
-            System.out.printf(e.getMessage());
-        }
+    public TweetoBH() {
+       items = new Tweeto[capacity];
     }
 
 
@@ -109,12 +102,20 @@ public class TweetoBH {
     }
 
     public void insert(Tweeto obj) {
-        if (size == capacity)
-            throw new ArrayIndexOutOfBoundsException("You can not insert elements any more");
+        if (size == capacity) throw new ArrayIndexOutOfBoundsException("You can not insert elements any more");
         items[size] = obj;
         size++;
         heapyfiUp();
-    }
+    } // end insert
+    public Tweeto remove(){ // removes the root and return it.
+        if ( size == 0 ) throw new IllegalArgumentException("The array is empty");
+        Tweeto item = items[0];
+        items[0] = items[ size - 1 ];
+        items[ size - 1 ] = null;
+        size--;
+        heapyfiDown();
+        return item;
+    } // end remove
 
     public void heapyfiUp() { // swim
         int index = size-1;
@@ -122,19 +123,27 @@ public class TweetoBH {
             swap(getParentIndex(index),index);
             index = getParentIndex(index);
         }
-    }
-    public void heapyfiDown(){
+    } // end heapyfiUp
+    public void heapyfiDown(){ // sink
         int index = 0;
         while(hasLeftChild(index)){
             int largerChildIndex = getLeftChildIndex(index);
             if(hasRightChild(index) && righttChild(index).compareTo( leftChild(index) ) > 0)
                 largerChildIndex = getRightChildIndex(index);
             if(items[index].compareTo( items[largerChildIndex] ) > 0 )
-                break;
+                break; // end if
             else
-                swap(index,largerChildIndex);
+                swap(index,largerChildIndex); // end else
             index = largerChildIndex;
-        }
+        } // end while
+    } // end heapyfiDown
+
+    @Override
+    public String toString(){
+        String arr = "";
+        for(int x = 0 ; x <size;x++)
+            arr = arr.concat(x+" "+items[x].toString()).concat("\n");
+        return arr;
     }
 
 }
